@@ -10,6 +10,10 @@
             --dark: #000;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             height: 100vh;
@@ -19,6 +23,7 @@
             align-items: center;
             overflow: hidden;
             font-family: 'Times New Roman', serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
@@ -35,27 +40,32 @@
             align-items: center;
             opacity: 0;
             transform: translateY(12px) scale(.98);
+            -webkit-transform: translateY(12px) scale(.98);
         }
 
         .section.active {
             display: flex;
             opacity: 1;
             transform: translateY(0) scale(1);
+            -webkit-transform: translateY(0) scale(1);
             transition: opacity 1s ease, transform 1s ease;
+            -webkit-transition: opacity 1s ease, -webkit-transform 1s ease;
         }
 
         .section.fade-out {
             opacity: 0;
             transform: scale(0.9);
+            -webkit-transform: scale(0.9);
         }
 
-        /* Thư */
+        /* Thư - Khắc phục hoàn toàn lệch nắp trên Messenger / Safari */
         .envelope {
             position: relative;
-            width: min(360px, 92vw);
-            height: 250px;
+            width: min(350px, 88vw);
+            height: 230px;
             cursor: pointer;
             perspective: 1000px;
+            -webkit-perspective: 1000px;
             isolation: isolate;
         }
 
@@ -63,14 +73,18 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 0;
-            height: 0;
-            border-top: 132px solid #e58b9c;
-            border-left: calc(min(360px, 92vw) / 2) solid transparent;
-            border-right: calc(min(360px, 92vw) / 2) solid transparent;
+            width: 100%;
+            height: 54%;
+            background: #e58b9c;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
             transform-origin: top center;
+            -webkit-transform-origin: top center;
             transition: transform .85s cubic-bezier(.2,.75,.25,1), z-index .1s .35s;
+            -webkit-transition: -webkit-transform .85s cubic-bezier(.2,.75,.25,1), z-index .1s .35s;
             z-index: 4;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .box {
@@ -86,6 +100,7 @@
             z-index: 3;
             border-radius: 0 0 12px 12px;
             clip-path: polygon(0 0, 50% 53%, 100% 0, 100% 100%, 0 100%);
+            -webkit-clip-path: polygon(0 0, 50% 53%, 100% 0, 100% 100%, 0 100%);
             pointer-events: none;
         }
 
@@ -96,7 +111,7 @@
             height: 88%;
             top: 6%;
             left: 5%;
-            padding: 15px 22px;
+            padding: 15px 20px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -105,53 +120,61 @@
             overflow: hidden;
             text-align: center;
             transition: transform 1s cubic-bezier(.2,.75,.25,1), box-shadow .8s ease;
+            -webkit-transition: -webkit-transform 1s cubic-bezier(.2,.75,.25,1), box-shadow .8s ease;
             z-index: 2;
             border: 1px solid rgba(216,27,67,.16);
             border-radius: 10px;
             box-shadow: 0 5px 18px rgba(0,0,0,.18);
+            transform: translateY(0);
+            -webkit-transform: translateY(0);
         }
 
         .card h2 {
             width: 100%;
             color: #d81b43;
-            margin: 0 0 12px;
-            font-size: clamp(18px, 4.8vw, 23px);
+            margin: 0 0 10px;
+            font-size: clamp(17px, 4.5vw, 22px);
             line-height: 1.2;
         }
         .card p {
             width: 100%;
-            font-size: clamp(13px, 3.5vw, 15px);
-            line-height: 1.65;
+            font-size: clamp(12.5px, 3.4vw, 14.5px);
+            line-height: 1.6;
             color: #444;
-            margin: 5px 0;
+            margin: 4px 0;
             overflow-wrap: break-word;
             word-break: normal;
         }
-        .card .sign { font-weight: bold; margin-top: 12px; color: #d81b43; }
+        .card .sign { font-weight: bold; margin-top: 10px; color: #d81b43; }
 
         .envelope.open .lid {
             transform: rotateX(180deg);
+            -webkit-transform: rotateX(180deg);
             z-index: 1; 
         }
 
         .envelope.open .card {
-            transform: translateY(-175px);
+            transform: translateY(-160px);
+            -webkit-transform: translateY(-160px);
             z-index: 5;
             box-shadow: 0 12px 28px rgba(0,0,0,.28);
         }
 
         .hint {
             color: #fca3b7;
-            margin-top: 30px;
-            font-size: 16px;
+            margin-top: 25px;
+            font-size: 15px;
             text-align: center;
             animation: bounce 1s infinite alternate;
+            -webkit-animation: bounce 1s infinite alternate;
         }
    
-        /* Bó hoa to hơn */
+        /* Bó hoa */
         .bouquet-container {
             transform: scale(.95) translateY(10px);
+            -webkit-transform: scale(.95) translateY(10px);
             transition: opacity 1.2s ease, transform 1.3s cubic-bezier(.2,.8,.2,1);
+            -webkit-transition: opacity 1.2s ease, -webkit-transform 1.3s cubic-bezier(.2,.8,.2,1);
             width: 100%;
             max-width: 580px;
         }
@@ -159,24 +182,38 @@
         .bouquet-container.show {
             opacity: 1;
             transform: scale(1) translateY(0);
+            -webkit-transform: scale(1) translateY(0);
         }
 
-        .flower-system { animation: bouquetFloat 5s ease-in-out 1.3s infinite; }
+        .flower-system { 
+            animation: bouquetFloat 5s ease-in-out 1.3s infinite; 
+            -webkit-animation: bouquetFloat 5s ease-in-out 1.3s infinite;
+        }
         .stems .stem {
             stroke-dasharray: 500;
             stroke-dashoffset: 500;
             animation: drawStem 1.4s ease-out forwards;
+            -webkit-animation: drawStem 1.4s ease-out forwards;
         }
         .stems .stem:nth-child(2n) { animation-delay: .1s; }
         .stems .stem:nth-child(3n) { animation-delay: .2s; }
-        .leaves { opacity: 0; transform-origin: 150px 400px; animation: leafBloom .8s ease-out 1s forwards; }
+        
+        .leaves { 
+            opacity: 0; 
+            transform-origin: 150px 400px; 
+            -webkit-transform-origin: 150px 400px;
+            animation: leafBloom .8s ease-out 1s forwards; 
+            -webkit-animation: leafBloom .8s ease-out 1s forwards;
+        }
         
         .flowers-layer-1, .flowers-layer-2, .flowers-layer-3,
         .flowers-layer-4, .flowers-layer-5, .flowers-layer-6 {
             opacity: 0;
             transform-box: fill-box;
             transform-origin: center bottom;
+            -webkit-transform-origin: center bottom;
             animation: flowerBloom .8s cubic-bezier(.16,1,.3,1) forwards;
+            -webkit-animation: flowerBloom .8s cubic-bezier(.16,1,.3,1) forwards;
         }
         .flowers-layer-1 { animation-delay: .6s; }
         .flowers-layer-2 { animation-delay: .75s; }
@@ -188,20 +225,38 @@
         .wrapper-back, .wrapper-front, .ribbon {
             opacity: 0;
             animation: wrapperAppear .8s ease-out 1.45s forwards;
+            -webkit-animation: wrapperAppear .8s ease-out 1.45s forwards;
         }
-        .message { opacity: 0; animation: messageAppear 1s ease 1.7s forwards; }
+        .message { 
+            opacity: 0; 
+            animation: messageAppear 1s ease 1.7s forwards; 
+            -webkit-animation: messageAppear 1s ease 1.7s forwards;
+        }
 
         @keyframes drawStem { to { stroke-dashoffset: 0; } }
+        @-webkit-keyframes drawStem { to { stroke-dashoffset: 0; } }
+
         @keyframes flowerBloom {
             from { opacity: 0; transform: translateY(15px) scale(.3) rotate(-10deg); }
             to { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
         }
-        @keyframes leafBloom { to { opacity: 1; } }
-        @keyframes wrapperAppear { to { opacity: 1; } }
-        @keyframes messageAppear { to { opacity: 1; } }
-        @keyframes bouquetFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @-webkit-keyframes flowerBloom {
+            from { opacity: 0; -webkit-transform: translateY(15px) scale(.3) rotate(-10deg); }
+            to { opacity: 1; -webkit-transform: translateY(0) scale(1) rotate(0); }
+        }
 
-        /* Kích thước SVG bó hoa lớn hơn */
+        @keyframes leafBloom { to { opacity: 1; } }
+        @-webkit-keyframes leafBloom { to { opacity: 1; } }
+
+        @keyframes wrapperAppear { to { opacity: 1; } }
+        @-webkit-keyframes wrapperAppear { to { opacity: 1; } }
+
+        @keyframes messageAppear { to { opacity: 1; } }
+        @-webkit-keyframes messageAppear { to { opacity: 1; } }
+
+        @keyframes bouquetFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @-webkit-keyframes bouquetFloat { 0%,100% { -webkit-transform: translateY(0); } 50% { -webkit-transform: translateY(-8px); } }
+
         .svg-flower {
             width: 100%;
             max-width: 560px;
@@ -224,18 +279,21 @@
 
         .message h1 {
             color: #ff7a94;
-            font-size: 28px;
+            font-size: 26px;
             margin-bottom: 5px;
             text-shadow: 0 0 10px rgba(255, 122, 148, 0.5);
         }
 
         .message p {
             color: #f1cbd2;
-            font-size: 16.5px;
+            font-size: 15.5px;
         }
 
         @keyframes bounce {
             to { transform: translateY(-10px); }
+        }
+        @-webkit-keyframes bounce {
+            to { -webkit-transform: translateY(-10px); }
         }
 
         @keyframes fall {
@@ -245,10 +303,18 @@
                 opacity: 0;
             }
         }
+        @-webkit-keyframes fall {
+            0% { opacity: 1; -webkit-transform: translateY(0) rotate(0deg); }
+            100% {
+                -webkit-transform: translateY(105vh) rotate(25deg);
+                opacity: 0;
+            }
+        }
 
         .heart-fall {
             position: fixed;
             animation: fall 4.5s linear forwards;
+            -webkit-animation: fall 4.5s linear forwards;
             pointer-events: none;
             z-index: 9999; 
             color: #ffb3c6;
@@ -261,16 +327,17 @@
         /* Ảnh rơi */
         .falling-photo {
             position: fixed;
-            width: clamp(80px, 13vw, 130px);
-            height: clamp(100px, 16vw, 165px);
+            width: clamp(75px, 12vw, 125px);
+            height: clamp(95px, 15vw, 155px);
             object-fit: cover;
-            border: 5px solid rgba(255,255,255,.95);
-            border-bottom-width: 18px;
+            border: 4px solid rgba(255,255,255,.95);
+            border-bottom-width: 16px;
             border-radius: 6px;
             box-shadow: 0 10px 24px rgba(0,0,0,.3);
             pointer-events: none;
             z-index: 9998;
             animation: photoDrift var(--duration, 7s) linear forwards;
+            -webkit-animation: photoDrift var(--duration, 7s) linear forwards;
             will-change: transform, opacity;
         }
 
@@ -280,10 +347,16 @@
             50% { transform: translate3d(var(--drift, 60px), 50vh, 0) rotate(var(--rotate-mid, 8deg)); opacity: 1; }
             100% { transform: translate3d(var(--drift-end, -30px), 105vh, 0) rotate(var(--rotate-end, 18deg)); opacity: 0; }
         }
+        @-webkit-keyframes photoDrift {
+            0% { -webkit-transform: translate3d(0, 0, 0) rotate(var(--rotate-start, -12deg)); opacity: 0; }
+            8% { opacity: 1; }
+            50% { -webkit-transform: translate3d(var(--drift, 60px), 50vh, 0) rotate(var(--rotate-mid, 8deg)); opacity: 1; }
+            100% { -webkit-transform: translate3d(var(--drift-end, -30px), 105vh, 0) rotate(var(--rotate-end, 18deg)); opacity: 0; }
+        }
 
         @media (max-width: 480px) {
-            .envelope { width: 92vw; height: 235px; }
-            .svg-flower { height: min(65vh, 480px); }
+            .envelope { width: 88vw; height: 220px; }
+            .svg-flower { height: min(62vh, 450px); }
             .message h1 { font-size: 22px; }
             .message p { font-size: 14px; padding: 0 12px; }
         }
@@ -320,7 +393,7 @@
                     <path d="M150 400 L-30 50 Q150 -10 330 50 Z" fill="#faedcd" opacity="0.6"/>
                 </g>
 
-                <!-- Cành hoa (Được bổ sung rất nhiều cành xòe rộng) -->
+                <!-- Cành hoa -->
                 <g class="stems">
                     <path d="M150 400 Q130 220 110 40" class="stem"/>
                     <path d="M150 400 Q170 220 190 40" class="stem"/>
@@ -361,7 +434,7 @@
                     <g transform="translate(240,220) rotate(130) scale(0.9)"><use href="#leaf"/></g>
                 </g>
 
-                <!-- Lớp hoa 1 (Đỉnh cao nhất) -->
+                <!-- Lớp hoa 1 -->
                 <g class="flowers-layer-1">
                     <g transform="translate(150,15) scale(1.6) rotate(5)"><use href="#bluestar"/></g>
                     <g transform="translate(80,30) scale(1.6) rotate(-15)"><use href="#bluestar"/></g>
@@ -383,7 +456,7 @@
                     <g transform="translate(190,75) scale(1.1) rotate(10)"><use href="#daisy"/></g>
                 </g>
 
-                <!-- Lớp hoa 3 (Trung tâm bó hoa) -->
+                <!-- Lớp hoa 3 -->
                 <g class="flowers-layer-3">
                     <g transform="translate(90,110) scale(1.1) rotate(-20)"><use href="#rose"/></g>
                     <g transform="translate(210,110) scale(1.1) rotate(20)"><use href="#rose"/></g>
@@ -416,7 +489,7 @@
                     <g transform="translate(270,220) scale(1.1) rotate(40)"><use href="#tulip"/></g>
                 </g>
 
-                <!-- Lớp hoa 6 (Chân bó hoa) -->
+                <!-- Lớp hoa 6 -->
                 <g class="flowers-layer-6">
                     <g transform="translate(80,250) scale(1.15) rotate(-15)"><use href="#rose"/></g>
                     <g transform="translate(220,250) scale(1.15) rotate(15)"><use href="#rose"/></g>
@@ -516,7 +589,6 @@
         }, 2500); 
     }
 
-    // Xử lý khi người dùng bấm vào màn hình: Rớt cả CHỮ lẫn ẢNH tại tọa độ click
     function handleClick(e) {
         createHeart(e);
         createFallingPhoto(e);
@@ -547,10 +619,6 @@
         setTimeout(() => heart.remove(), 4500);
     }
 
-    /*
-      ================== DANH SÁCH ẢNH RƠI ==================
-      Bạn thay thế các tên tệp hình ảnh thực tế của bạn tại đây
-    */
     const photoList = [
         "anh1.jpg", 
         "anh2.jpg", 
